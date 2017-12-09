@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <time.h>
 #define MAX_TIME 85
-#define DHT22PIN 7
+#define DHT22PIN 13
 #define ATTEMPTS 5
 int dht22_val[5]={0,0,0,0,0};
 
