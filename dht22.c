@@ -1,4 +1,5 @@
-// gcc -Wall -std=gnu99 -o dht22 dht22.c -l wiringPi
+// compile line
+// gcc -Wall -std=gnu99 dht22.c -o dht22 -l wiringPi
 
 #include <wiringPi.h>
 #include <stdio.h>
@@ -6,8 +7,9 @@
 #include <stdint.h>
 #include <time.h>
 #define MAX_TIME 85
-#define DHT22PIN 13
 #define ATTEMPTS 5
+#define DHT22PIN 9      //physical pin 5
+
 int dht22_val[5]={0,0,0,0,0};
 
 int dht22_read_val()
@@ -18,17 +20,17 @@ int dht22_read_val()
     uint8_t lststate=HIGH;
     uint8_t counter=0;
     uint8_t j=0,i;
-    int addr,nemail;
-    char out_string[256];
+    int addr, nemail;
+    char out_string[200];
     time_t current_time;
     current_time=time(NULL);
     FILE *fp;
 
 // customize the next four lines for your needs
-    float high_temp=90.0;
-    float low_temp=50.0;
-    const char *email[2]={"youremail1@aol.com","anotheremail@gmail.com"};
-    const char *loc="Wherever";
+    float alarmhi=80.0;
+    float alarmlo=60.0;
+    const char *email[2]={"youremail@comcast.net","anotheremail@gmail.com"};
+    const char *loc="Location";
 
     nemail = sizeof(email)/sizeof(email[0]);
 
@@ -54,9 +56,7 @@ int dht22_read_val()
         lststate=digitalRead(DHT22PIN);
         if(counter==255)
              break;
-
         // top 3 transistions are ignored
-
         if((i>=4)&&(i%2==0)){
             dht22_val[j/8]<<=1;
             if(counter>16)
@@ -73,26 +73,29 @@ int dht22_read_val()
         humid=(256.*dht22_val[0]+dht22_val[1])/10.;
         tempC=(256.*dht22_val[2]+dht22_val[3])/10.;
         tempF=(9.*tempC/5.)+32.;
+
+// enable next line for debug information
+//        printf("%5.1f\t%5.1f\t%s",tempF,humid,ctime(&current_time));
         fprintf(fp,"%5.1f\t%5.1f\t%s",tempF,humid,ctime(&current_time));
         fclose(fp);
 
-//    send e-mail if over temperature, these are picked based on free air temperature
-//    and observation, so change the limits at your own risk
+// send e-mail if over temperature, these are picked based on alarm levels
 
-        if(tempF > high_temp) {
-            for (addr=0;addr<nemail;addr++) {
+        if(tempF > alarmhi) {
+            for (addr=0; addr<nemail; addr++) {
                 sprintf(out_string,
-                "echo '%s high temp alarm at %s' | "
-                "heirloom-mailx -s '%s high temperature alarm' %s",
-                loc, ctime(&current_time),loc,email[addr]);
+                "echo '%s high temp %5.1f F alarm at %s' | "
+                "heirloom-mailx -s '%s high temp %5.1f F alarm' %s",
+                loc, tempF, ctime(&current_time), loc, tempF, email[addr]);
+        	    printf("%s\n",out_string);
                 system(out_string);
-            }
-        } else if (tempF < low_temp) {
-            for (addr=0;addr<nemail;addr++) {
+            } 
+        } else if (tempF < alarmlo) {
+            for (addr=0; addr<nemail; addr++) {
                 sprintf(out_string,
-                "echo '%s low temp alarm at %s' | "
-                "heirloom-mailx -s ' %s low temperature alarm' %s",
-                loc,ctime(&current_time),loc,email[addr]);
+                "echo '%s high temp %5.1f F alarm at %s' | "
+                "heirloom-mailx -s '%s high temp %5.1f F alarm' %s",
+                loc, tempF, ctime(&current_time), loc, tempF, email[addr]);
                 system(out_string);
             }
         }

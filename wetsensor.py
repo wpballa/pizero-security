@@ -12,29 +12,26 @@ import time
 
 # initialization
 
-red = LED(17)
-green = LED(22)
-sensor = LineSensor(27, threshold=0.2, sample_rate=1.0)
+red = LED(10)
+green = LED(11)
+sensor = LineSensor(9, threshold=0.2, sample_rate=1.0)
 
-# give a good name so you will know where the alarm is coming from
-
-name = "Location"
-
+# customize these next two lines for your application
 # if you need to send multiple emails, simply add to this list
-
-email = ["youremail@gmail.com", "anotheremail@att.net"]
+email = ["youremail@gmail.com", "anotheremail@comcast.net"]
+loc = "Location"
 
 # let them know code started
 
 init = "echo " + time.ctime()
-init = init + " | heirloom-mailx -s '" + name + " liquid detector started' "
+init = init + " | heirloom-mailx -s '" + loc + " water detector started' "
 
 for addr in email:
     outs = init + addr
     os.system(outs)
 
-wet = " | heirloom-mailx -s '" + name + " liquid detected' "
-dry = " | heirloom-mailx -s '" + name + " no liquid detected' "
+wet = " | heirloom-mailx -s '" + loc + " water detected' "
+dry = " | heirloom-mailx -s '" + loc + " no water detected' "
 
 # function definitions
 

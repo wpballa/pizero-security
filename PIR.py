@@ -1,40 +1,39 @@
 #! /usr/bin/python3
 
-# Uses Adafruit PIR sensor to detect motion and send e-mail to a list of
-# recipients. Also lets people know that the service is started.
+# uses a PIR sensor and gpiozero library to detect motion
+# recommend setting PIR time constant on the board to long 
+# to minimize multiple emails
 
 from gpiozero import MotionSensor
 import os
 import time
 
-# initialization, edit the name to be something meaningful and change the 
-# list of emails to those that need notification
+# initialization
 
-pirpin = 18
-name = "Location"
-email = ["your-email@gmail.com", "another-email@att.net"]
-mailpart =  " | heirloom-mailx -s '" + name + " motion detected' "
-mailstart = " | heirloom-mailx -s '" + name + " motion detector started' "
+# customize these next two lines
+email = ["youremail@gmail.com","anotheremail@comcast.net"]
+loc = "Location"
+
+mailpart =  " | heirloom-mailx -s '" + loc + " motion detected' "
+mailstart = " | heirloom-mailx -s '" + loc + " motion detector started' "
+pirpin = 14     # physical pin 8
 pir = MotionSensor(pirpin)
 
 # function definitions
 
 def MOT():
     for addr in email:
-        outs = "echo " + name + " motion detected at "
-        outs = outs + time.ctime() + mailpart + addr
+        outs = "echo " + loc + " motion detected at " + time.ctime() + mailpart + addr
         os.system(outs)
-        print(outs)
+
 def NOMOT():
     print("No Motion Detected")
 
 # let them know it is started
 
 for addr in email:
-    outs = "echo " + name + " motion detection started at "
-    outs = outs + time.ctime() + mailstart + addr
+    outs = "echo " + loc + " motion detection started at " + time.ctime() + mailstart + addr
     os.system(outs)
-    print(outs)
 
 # loop looking for motion
 
