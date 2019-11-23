@@ -18,6 +18,17 @@ sensor = LineSensor(9, threshold=0.2, sample_rate=1.0)
 
 # customize these next two lines for your application
 # if you need to send multiple emails, simply add to this list
+# here are the email addresses for text messages
+# AT&T: [number]@txt.att.net
+# Sprint: [number]@messaging.sprintpcs.com or [number]@pm.sprint.com
+# T-Mobile: [number]@tmomail.net
+# Verizon: [number]@vtext.com
+# Boost Mobile: [number]@myboostmobile.com
+# Cricket: [number]@sms.mycricket.com
+# Metro PCS: [number]@mymetropcs.com
+# Tracfone: [number]@mmst5.tracfone.com
+# U.S. Cellular: [number]@email.uscc.net
+# Virgin Mobile: [number]@vmobl.com
 email = ["youremail@gmail.com", "anotheremail@comcast.net"]
 loc = "Location"
 

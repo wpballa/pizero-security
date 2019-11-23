@@ -26,9 +26,22 @@ int dht22_read_val()
     current_time=time(NULL);
     FILE *fp;
 
-// customize the next four lines for your needs
+// customize the next section for your needs
     float alarmhi=80.0;
     float alarmlo=60.0;
+// to use text, here are the appropriate email addresses
+// AT&T: [number]@txt.att.net
+// Sprint: [number]@messaging.sprintpcs.com or [number]@pm.sprint.com
+// T-Mobile: [number]@tmomail.net
+// Verizon: [number]@vtext.com
+// Boost Mobile: [number]@myboostmobile.com
+// Cricket: [number]@sms.mycricket.com
+// Metro PCS: [number]@mymetropcs.com
+// Tracfone: [number]@mmst5.tracfone.com
+// U.S. Cellular: [number]@email.uscc.net
+// Virgin Mobile: [number]@vmobl.com
+
+// adjust the size of email to the number of entries
     const char *email[2]={"youremail@comcast.net","anotheremail@gmail.com"};
     const char *loc="Location";
 

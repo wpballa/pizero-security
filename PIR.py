@@ -10,12 +10,26 @@ import time
 
 # initialization
 
-# customize these next two lines
+# customize these next two lines, you can add as many addresses
+# as you wish. To use text, here are the appropriate email addresses:
+
+# AT&T: [number]@txt.att.net
+# Sprint: [number]@messaging.sprintpcs.com or [number]@pm.sprint.com
+# T-Mobile: [number]@tmomail.net
+# Verizon: [number]@vtext.com
+# Boost Mobile: [number]@myboostmobile.com
+# Cricket: [number]@sms.mycricket.com
+# Metro PCS: [number]@mymetropcs.com
+# Tracfone: [number]@mmst5.tracfone.com
+# U.S. Cellular: [number]@email.uscc.net
+# Virgin Mobile: [number]@vmobl.com
+
 email = ["youremail@gmail.com","anotheremail@comcast.net"]
 loc = "Location"
 
-mailpart =  " | heirloom-mailx -s '" + loc + " motion detected' "
-mailstart = " | heirloom-mailx -s '" + loc + " motion detector started' "
+mailpart =  " | s-nail -s '" + loc + " motion detected' "
+mailstart = " | s-nail -s '" + loc + " motion detector started' "
+
 pirpin = 14     # physical pin 8
 pir = MotionSensor(pirpin)
 
